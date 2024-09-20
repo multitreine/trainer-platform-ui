@@ -1,0 +1,20 @@
+services:
+  cockpit:
+    image: cockpithq/cockpit:core-latest
+    container_name: cockpit
+    ports:
+      - 8000:80
+    volumes:
+      - ./docker_data/storage:/storage
+      - ./docker_data/config:/config
+      - ./docker_data/.spaces:/.spaces
+
+  cockpit2:
+    image: cockpithq/cockpit:core-latest
+    container_name: cockpit2
+    ports:
+      - 8001:80
+    volumes:
+      - ./docker_data2/storage:/storage
+      - ./docker_data2/config:/config
+      - ./docker_data2/.spaces:/.spaces
