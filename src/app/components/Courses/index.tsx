@@ -51,7 +51,6 @@ function Courses({ courses }: CourseProps) {
     return <></>;
   }
 
-  // Set the first section as the default
   useState(() => {
     if (courses.length > 0) {
       setActiveSection(courses[0]?.id);
@@ -63,10 +62,10 @@ function Courses({ courses }: CourseProps) {
   };
 
   return (
-    <section className="   flex flex-col   items-center h-full border-b border-b-[#29292e] w-full ">
+    <section className="flex flex-col items-center h-full border-b border-b-[#29292e]">
       <div className=" h-full text-white">
         <div className="flex flex-col items-center justify-center ">
-          <span className="w-[.0938rem] h-[5rem] rotate-180 bg-gradient-to-t  mb-[3.75rem] from-purple-500 to-transparent "></span>
+          <span className=" h-[5rem] rotate-180 bg-gradient-to-t  mb-[3.75rem] from-purple-500 to-transparent "></span>
           <h3
             data-aos="fade-up"
             className="font-bold text-[#e1e1e6] aos-init aos-animate text-[48px] mb-20 text-center   leading-[54px]"
@@ -76,7 +75,7 @@ function Courses({ courses }: CourseProps) {
           </h3>
         </div>
       </div>
-      <div className="w-full max-w-[1120px]">
+      <div className="">
         <div className={`${roboto.className} flex flex-col min-h-[660px] mx-6`}>
           <div className="flex relative text-white flex-row gap-7 border-b min-h-[68px] h-full border-[#29292e]">
             {courses.map(({ images }) => (
@@ -99,7 +98,7 @@ function Courses({ courses }: CourseProps) {
             ))}
           </div>
 
-          <div className="w-full">
+          <div className="">
             {courses.map(
               ({ actions, countent, images, testimony }) =>
                 activeSection === actions.id && (

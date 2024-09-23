@@ -4,7 +4,7 @@ import { SliderBanner } from "./slider";
 const Banner = () => {
   return (
     <>
-      <section>
+      <section className="mt-28">
         <SliderBanner />
       </section>
     </>

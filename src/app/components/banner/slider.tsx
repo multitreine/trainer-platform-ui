@@ -9,7 +9,7 @@ function SliderBanner() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     cssEase: "linear",
   };
 
@@ -19,7 +19,7 @@ function SliderBanner() {
       alt: "Slide 1",
     },
     {
-      src: "url('/bg.png'",
+      src: "url('/bg.png')",
       alt: "Slide 2",
     },
   ];
@@ -30,10 +30,10 @@ function SliderBanner() {
         {slides.map((slide, index) => (
           <div key={index}>
             <section
-              className={`bg-[${slide.src}] bg-contain bg-no-repeat items-center text-white`}
+              className={`bg-[${slide.src}] bg-contain bg-no-repeat items-center `}
             >
               <div className="flex items-center text-center flex-col">
-                <div className="mt-[5.625rem]" />
+                <div className="" />
                 <h1
                   data-aos="fade-in"
                   data-aos-delay="100"
@@ -57,7 +57,7 @@ function SliderBanner() {
                     className="font-bold text-base aos-init aos-animate flex flex-row items-center justify-center leading-[16px] min-w-full min-h-full py-[15px] pl-6 pr-[16px] gap-6 uppercase"
                     href=""
                   >
-                    <div className="mt-[2px]">
+                    <div className="mt-[2px] text-white">
                       <p>embarcar no foguete</p>
                     </div>
                     <span className="inline-block">
