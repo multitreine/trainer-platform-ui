@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Programs from "../programs";
 import Events from "../events";
 import ResponsiveMenu from "./responsiveheader";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { fetchHeaderData } from "@/ducks/header/operations";
 
 const data = {
   header: {
@@ -79,6 +81,10 @@ const data = {
 
 export default function Header() {
   const [click, setClick] = useState("");
+
+  const dispatch = useAppDispatch();
+  const users = useAppSelector((state: any) => state.header);
+
   const disableScroll = (hidden: boolean) => {
     if (hidden === true) {
       document.body.classList.toggle("lg:overflow-hidden");
@@ -89,6 +95,14 @@ export default function Header() {
     setClick(click === "Programas" || click === "Eventos" ? "" : display);
     disableScroll(true);
   };
+
+  useEffect(() => {
+    dispatch(fetchHeaderData());
+  }, []);
+
+  useEffect(() => {
+    console.log(users);
+  }, [click]);
 
   const headerData = data.header;
 

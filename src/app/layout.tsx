@@ -5,6 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Providers from "@/store/provider";
 
 const roboto = Roboto({
   weight: ["700", "400"],
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${roboto.className}`}>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

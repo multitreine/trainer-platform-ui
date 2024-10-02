@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  cockpit:
+    image: cockpithq/cockpit:core-2.3.5
+    container_name: cockpit
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker_data/storage:/storage
+      - ./docker_data/config:/config
+      - ./docker_data/.spaces:/.spaces
+    command: >
+      sh -c "
+      if [ ! -f /storage/data/accounts/admin.php ]; then
+        curl -o /var/www/html/install/index.php https://raw.githubusercontent.com/Cockpit-HQ/Cockpit/develop/install/index.php &&
+        php /var/www/html/install/index.php &&
+        echo '<?php
+        \$app = cockpit();
+        \$app->storage->insert(\"cockpit/accounts\", [
+            \"user\" => \"admin\",
+            \"email\" => \"admin@example.com\",
+            \"active\" => true,
+            \"group\" => \"admin\",
+            \"password\" => password_hash(\"admin\", PASSWORD_DEFAULT)
+        ]);
+        ?>' > /var/www/html/create-admin.php &&
+        php /var/www/html/create-admin.php;
+      fi &&
+      apache2-foreground
+      "
+    restart: unless-stopped
