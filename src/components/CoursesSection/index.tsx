@@ -48,6 +48,7 @@ export function CoursesSection() {
                 width={400}
                 height={200}
                 className="w-full"
+                loading="lazy"
               />
               <div className="p-6">
                 <h3 className="font-bold text-xl mb-2">{course.title}</h3>
@@ -55,7 +56,6 @@ export function CoursesSection() {
                 <Button
                   variant="default"
                   className="bg-green-600 hover:bg-green-700 text-white"
-                  ref={course.ctaUrl}
                 >
                   {course.ctaText}
                 </Button>

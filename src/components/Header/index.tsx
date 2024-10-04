@@ -23,7 +23,7 @@ export function Header() {
     <header className="container mx-auto px-4 py-6 flex items-center justify-between">
       <Image src={headerData.logo} alt="Logo" width={150} height={40} />
       <nav className="hidden md:flex space-x-6">
-        {headerData.navLinks.map((link, index) => (
+        {headerData.navLinks?.map((link, index) => (
           <a
             key={index}
             href={link.url}
@@ -34,7 +34,7 @@ export function Header() {
         ))}
       </nav>
       <div className="flex items-center space-x-4">
-        {headerData.socialLinks.map((social, index) => {
+        {headerData.socialLinks?.map((social, index) => {
           const Icon =
             social.icon === "Facebook"
               ? Facebook
