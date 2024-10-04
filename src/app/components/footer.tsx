@@ -124,7 +124,7 @@ export default function Footer() {
                   <span className="font-bold text-[#e1e1e6]">
                     {section.sectionTitle}
                   </span>
-                  {section.links.map((link, linkIndex) => (
+                  {section?.links?.map((link, linkIndex) => (
                     <a
                       key={linkIndex}
                       className={beforeFooter.join(" ")}
@@ -145,14 +145,14 @@ export default function Footer() {
                 .map((section, index) => (
                   <div key={index} className="flex gap-2 items-center">
                     <Image
-                      src={section.logo.src}
-                      width={section.logo.width}
-                      height={section.logo.height}
-                      alt={section.logo.alt}
+                      src={section.logo?.src || "/default-logo.svg"}
+                      width={section.logo?.width}
+                      height={section.logo?.height}
+                      alt={section.logo?.alt || "Default Alt Text"}
                       className="h-12"
                     />
                     <span className="text-[#e1e1e6] text-[0.7rem]">
-                      {section.logo.text}
+                      {section.logo?.text}
                     </span>
                   </div>
                 ))}
@@ -163,7 +163,7 @@ export default function Footer() {
               {footerData
                 .filter((section) => section.socialMedia)
                 .map((section) =>
-                  section.socialMedia.map((social, socialIndex) => (
+                  section.socialMedia?.map((social, socialIndex) => (
                     <a
                       key={socialIndex}
                       className="h-12 w-12 bg-[#202024] flex justify-center items-center rounded"

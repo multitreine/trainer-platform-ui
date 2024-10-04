@@ -55,7 +55,7 @@ export function StructureSection() {
           <Button
             variant="default"
             className="bg-green-600 hover:bg-green-700 text-white mt-8"
-            href={structureData.ctaUrl}
+            ref={structureData.ctaUrl}
           >
             {structureData.ctaText}
           </Button>

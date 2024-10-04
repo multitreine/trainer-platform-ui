@@ -55,7 +55,7 @@ export function CoursesSection() {
                 <Button
                   variant="default"
                   className="bg-green-600 hover:bg-green-700 text-white"
-                  href={course.ctaUrl}
+                  ref={course.ctaUrl}
                 >
                   {course.ctaText}
                 </Button>

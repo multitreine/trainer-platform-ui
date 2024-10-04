@@ -25,14 +25,14 @@ export function HeroSection() {
         <Button
           variant="default"
           className="bg-green-600 hover:bg-green-700 text-white mr-4"
-          href={heroData.ctaPrimary.url}
+          ref={heroData.ctaPrimary.url}
         >
           {heroData.ctaPrimary.text}
         </Button>
         <Button
           variant="outline"
           className="border-green-600 text-green-600"
-          href={heroData.ctaSecondary.url}
+          ref={heroData.ctaSecondary.url}
         >
           {heroData.ctaSecondary.text}
         </Button>
