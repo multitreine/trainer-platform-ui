@@ -4,6 +4,6 @@ import { headerReducer } from "@/ducks/header/reducers";
 
 const rootReducer = combineReducers({
   header: headerReducer 
-}) as any;;
+})as any;
 
 export { rootReducer }
