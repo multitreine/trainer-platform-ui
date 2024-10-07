@@ -21,11 +21,13 @@ export default function Home() {
         data-aos-delay="0"
         className=""
       >
-        <Header />
+        {/* <Header />
 
         <Main />
 
-        <Footer />
+        <Footer /> */}
+
+        <h1>home</h1>
       </div>
     </>
   );

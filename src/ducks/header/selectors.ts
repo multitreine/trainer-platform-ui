@@ -1,6 +1,5 @@
-import { RootState } from "@/store/createStore";
 
 
-export const selectHeaderData = (state: RootState | any) => state?.header?.data;
-export const selectHeaderLoading = (state: RootState | any) => state?.header?.loading;
-export const selectHeaderError = (state: RootState | any) => state?.header?.error;
+export const selectHeaderData = (state: any | any) => state.header?.data?.[0] || {};
+export const selectHeaderLoading = (state: any | any) => state.header?.loading ?? false;
+export const selectHeaderError = (state: any | any) => state.header?.error ?? null;

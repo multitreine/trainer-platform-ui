@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
 }
 
 const apiService = async <T = any>(config: ApiServiceConfig = {}): Promise<AxiosResponse<T>> => {
-  const cookieAuth = await getCookie('auth');
+  const cookieAuth = await getCookie('auth1');
 
   const Authorization = cookieAuth ? `Bearer ${cookieAuth}` : '';
 

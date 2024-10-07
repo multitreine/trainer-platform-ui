@@ -4,15 +4,14 @@ import { AnyAction } from 'redux';
 const initialState = {
   loading: false,
   error: null,
-  data: null,
+  data: [],
 }
 
-const headerReducer = (state = { ...initialState }, action: AnyAction) => {
+const reducer = (state = { ...initialState }, action: AnyAction) => {
   switch (action.type) {
     case FETCH_HEADER_DATA_REQUEST:
       return { ...state, loading: true };
     case FETCH_HEADER_DATA_SUCCESS:
-      console.log('headerReducer:', action);
       return { ...state, data: action.payload, loading: false };
     case FETCH_HEADER_DATA_FAILURE:
       return { ...state, error: action.payload, loading: false };
@@ -21,4 +20,4 @@ const headerReducer = (state = { ...initialState }, action: AnyAction) => {
   }
 };
 
-export { headerReducer };
+export { reducer };

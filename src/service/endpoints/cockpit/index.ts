@@ -6,7 +6,7 @@ interface GetCockpitParams {
 }
 
 const getCockpit = async ({ params }: GetCockpitParams) => {
-  const url = `${process.env.COCKPIT_URL}/${params}`;
+  const url = `${process.env.COCKPIT_URL}/api/${params}`;
   const apiKey = process.env.COCKPIT_API_KEY_LP || '';
 
   try {

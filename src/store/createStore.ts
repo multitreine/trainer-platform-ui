@@ -3,11 +3,14 @@ import { thunk } from 'redux-thunk';
 import { rootReducer } from './rootReducer';
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const preloadedState = typeof window !== 'undefined' ?  window.__PRELOADED_STATE__ : undefined;
 
-export const store: any = createStore(
+export const makeStore: any = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  preloadedState,
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = typeof store.dispatch;
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

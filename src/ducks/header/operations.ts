@@ -7,8 +7,8 @@ export const fetchHeaderData = (): any => async (dispatch: AppDispatch) => {
   dispatch(fetchHeaderDataRequest());
 
   try {
-    const response = await getCockpit({ params: 'content/items/teste3' });
-    dispatch(fetchHeaderDataSuccess(response));
+    const header = await getCockpit({ params: 'content/items/header' });
+    return dispatch(fetchHeaderDataSuccess(header));
   } catch (error: any) {
     dispatch(fetchHeaderDataFailure(error.message));
   }
