@@ -1,18 +1,8 @@
 "use client";
-import Footer from "./components/footer";
-import Header from "./components/Header/header";
-import Main from "./components/main";
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { useEffect } from "react";
 
 export default function Home() {
-  useEffect(() => {
-    AOS.init({
-      initClassName: "aos-init",
-      animatedClassName: "aos-animate",
-    });
-  }, []);
   return (
     <>
       <div
@@ -21,13 +11,7 @@ export default function Home() {
         data-aos-delay="0"
         className=""
       >
-        {/* <Header />
-
-        <Main />
-
-        <Footer /> */}
-
-        <h1>home</h1>
+        
       </div>
     </>
   );

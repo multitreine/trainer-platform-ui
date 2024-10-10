@@ -27,7 +27,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br">
-      <body className={`${roboto.className}`}>
+      <body className={`${roboto.className} bg-[#F3F4F6]`}>
         <script
           dangerouslySetInnerHTML={{
             __html: `

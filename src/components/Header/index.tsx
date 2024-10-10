@@ -1,11 +1,11 @@
-"use client";
-
 import Image from "next/image";
 import * as IconLucie from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { makeStore } from "@/store/createStore";
 import { selectorsHeader } from "@/ducks/header";
 import { useEffect, useState } from "react";
+import { isWindow } from "@/helpers/window";
+import Link from "next/link";
 
 type HeaderProps = {
   headerData: {
@@ -40,16 +40,6 @@ function getIconComponent(social: SocialIconProps) {
 }
 
 function HeaderComponent({ headerData }: HeaderProps) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return <></>;
-  }
-
   const {
     logoDesktop = { path: "" },
     navLinks = [],
@@ -89,13 +79,18 @@ function HeaderComponent({ headerData }: HeaderProps) {
       <div className="hidden md:flex pb-5 items-center space-x-4">
         {icon?.map((social: SocialIconProps, index: React.Key) => {
           const Icon = getIconComponent(social);
-
+          console.log(social);
           return (
-            <div key={index} onClick={() => window.open(social.path, "_blank")}>
+            <Link
+              href={social.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={index}
+            >
               <Icon
                 className={`w-${social.size} h-${social.size} text-gray-600 hover:text-green-600 transition-colors duration-200 cursor-pointer`}
               />
-            </div>
+            </Link>
           );
         })}
         <Button

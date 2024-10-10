@@ -1,4 +1,3 @@
-// src/global.d.ts
 import { compose } from 'redux';
 
 declare global {

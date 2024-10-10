@@ -10,6 +10,10 @@ export function CoursesComponent({ coursesData }: any) {
     return data.isActive;
   });
 
+  if (activeCourses.length === 0) {
+    return <></>;
+  }
+
   return (
     <section className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">
@@ -59,8 +63,8 @@ export function CoursesComponent({ coursesData }: any) {
   );
 }
 
-const wrapperHero = (Component: any) => {
-  return function WrapperHero() {
+const wrapperCourses = (Component: any) => {
+  return function WrapperCourses() {
     const store = makeStore.getState();
 
     const coursesData = selectorsCourses
@@ -86,4 +90,4 @@ const wrapperHero = (Component: any) => {
   };
 };
 
-export const CoursesSection = wrapperHero(CoursesComponent);
+export const CoursesSection = wrapperCourses(CoursesComponent);

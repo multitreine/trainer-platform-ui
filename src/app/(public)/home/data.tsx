@@ -1,8 +1,10 @@
 "use server";
 import { makeStore } from "@/store/createStore";
-import { operationsHeader, selectorsHeader } from "@/ducks/header"; 
+import { operationsHeader } from "@/ducks/header"; 
 import { operationsHero } from "@/ducks/hero";
 import { operationsCourses } from "@/ducks/courses";
+import { operationsTeachers } from "@/ducks/teachers";
+import { operationsStructure } from "@/ducks/structure";
 
 const wrapperDataPage = (Component: any) => {
   return async function WrapperDataPage() {
@@ -13,6 +15,8 @@ const wrapperDataPage = (Component: any) => {
       dispatch(operationsHeader.fetchHeaderData()),
       dispatch(operationsHero.fetchHeroData()),
       dispatch(operationsCourses.fetchCoursesData()),
+      dispatch(operationsTeachers.fetchTeachersData()),
+      dispatch(operationsStructure.fetchStructureData())
     ]);
 
     const exemploData = { };
