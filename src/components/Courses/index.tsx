@@ -82,9 +82,8 @@ export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
 
 const wrapperCourses = (Component: any) => {
   return async function WrapperCourses() {
-    const dispatch = makeStore.dispatch;
-    await dispatch(operationsCourses.fetchCoursesData());
-    const store = makeStore.getState();
+
+    const store = makeStore.getState() || {};
 
     const coursesData = selectorsCourses.selectCoursesData(store);
     

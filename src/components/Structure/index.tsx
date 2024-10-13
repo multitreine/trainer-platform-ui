@@ -54,7 +54,7 @@ export function StructureComponent({ structureData }: any) {
 
 const wrapperCourses = (Component: any) => {
   return function WrapperCourses() {
-    const store = makeStore.getState();
+    const store = makeStore.getState() || {};
     const structureData = selectorsStructure.selectStructureData(store);
     return <Component structureData={structureData} />;
   };
