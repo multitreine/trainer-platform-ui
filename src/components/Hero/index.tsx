@@ -40,7 +40,7 @@ const settings = {
 };
 
 const renderMedia = (slide: Slide) => {
-  if (slide.isImage && slide.pathImage) {
+  if (slide.pathImage) {
     const pathImage = getPathImage(slide.pathImage!);
     return (
       <div>
@@ -80,12 +80,14 @@ export function Hero({ heroData }: HeroSectionProps) {
     return <></>;
   }
 
+
+
   return (
     <div className="relative slider-container bg-slate-600">
       {slides.length > 1 ? (
         <Slider {...settings}>
-          {slides.map((slide) => (
-            <Link href={slide.userDestination!} key={slide.id}>
+          {slides?.map((slide) => (
+            <Link href={slide?.userDestination || ""} key={slide.id}>
               <section className="">
                 <div className="">{renderMedia(slide)}</div>
               </section>
@@ -93,12 +95,14 @@ export function Hero({ heroData }: HeroSectionProps) {
           ))}
         </Slider>
       ) : (
-        slides.map((slide) => (
-          <Link href={slide.userDestination!} key={slide.id}>
-            <section key={slide.id} className="container items-center">
-              <div className=" relative">{renderMedia(slide)}</div>
-            </section>
-          </Link>
+        slides?.map((slide) => (
+          <>
+            <Link href={slide?.userDestination || ""} key={slide.id}>
+              <section key={slide.id} className="container items-center">
+                <div className=" relative">{renderMedia(slide)}</div>
+              </section>
+            </Link>
+          </>
         ))
       )}
     </div>
@@ -108,6 +112,7 @@ export function Hero({ heroData }: HeroSectionProps) {
 const wrapperHero = (Component: any) => {
   return function WrapperHero() {
     const store = makeStore.getState() || {};
+    console.log("heroData =>>", JSON.stringify(store, null, 2));
 
     const heroData = {
       data: selectorsHero.selectHeroData(store),
