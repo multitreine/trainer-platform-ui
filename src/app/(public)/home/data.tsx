@@ -11,19 +11,20 @@ const wrapperDataPage = (Component: any) => {
   return async function WrapperDataPage() {
     const dispatch = makeStore?.dispatch || (() => {});
 
-    try {
-      await Promise.all([
-        dispatch(operationsHeader.fetchHeaderData()),
-        dispatch(operationsHero.fetchHeroData()),
-        dispatch(operationsCourses.fetchCoursesData()),
-        dispatch(operationsTeachers.fetchTeachersData()),
-        dispatch(operationsStructure.fetchStructureData()),
-        dispatch(operationsFooter.fetchFooterData()),
-      ]);
-    } catch (error) {
-      console.error("error error wrapperDataPage all dispatch", JSON.stringify(error, null, 2));
-      Promise.resolve();
-    }
+    const results = await Promise.allSettled([
+      dispatch(operationsHeader.fetchHeaderData()),
+      dispatch(operationsHero.fetchHeroData()),
+      dispatch(operationsCourses.fetchCoursesData()),
+      dispatch(operationsTeachers.fetchTeachersData()),
+      dispatch(operationsStructure.fetchStructureData()),
+      dispatch(operationsFooter.fetchFooterData()),
+    ]);
+
+    results.forEach((result, index) => {
+      if (result.status === "rejected") {
+        console.error(`Erro na operação ${index + 1}:`, result.reason);
+      }
+    });
 
     return <Component />;
   };
