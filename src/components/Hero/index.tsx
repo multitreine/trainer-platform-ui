@@ -68,7 +68,7 @@ const renderMedia = (slide: Slide) => {
 };
 
 export function Hero({ heroData }: HeroSectionProps) {
-  const { data: slides } = heroData;
+  const { data: slides } = heroData || {};
 
   const [isClient, setIsClient] = useState(false);
 
@@ -107,7 +107,7 @@ export function Hero({ heroData }: HeroSectionProps) {
 
 const wrapperHero = (Component: any) => {
   return function WrapperHero() {
-    const store = makeStore.getState();
+    const store = makeStore.getState() || {};
 
     const heroData = {
       data: selectorsHero.selectHeroData(store),

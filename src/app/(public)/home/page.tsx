@@ -2,14 +2,9 @@
 import { CoursesSection } from "@/components/Courses";
 import { StructureSection } from "@/components/Structure";
 import { Footer } from "@/components/Footer";
-
 import { TeachersSection } from "@/components/Teachers";
 import { wrapperDataPage } from "./data";
 import { HeroSection } from "@/components/Hero";
-
-interface HomePageProps {
-  exemploData: any;
-}
 
 const CustomBackground = () => {
   return (
@@ -20,7 +15,7 @@ const CustomBackground = () => {
   );
 };
 
-const HomePage = ({ exemploData }: HomePageProps) => {
+const HomePage = () => {
   return (
     <div className="min-h-screen">
       <>

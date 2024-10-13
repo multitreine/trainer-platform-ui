@@ -20,9 +20,7 @@ const wrapperDataPage = (Component: any) => {
       dispatch(operationsFooter.fetchFooterIfNeeded()),
     ]);
 
-    const exemploData = { };
-
-    return <Component exemploData={exemploData} />;
+    return <Component />;
   };
 }
 
