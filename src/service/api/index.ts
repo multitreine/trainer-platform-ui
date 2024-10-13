@@ -41,18 +41,15 @@ if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
 }
 
 const apiService = async <T = any>(config: ApiServiceConfig = {}): Promise<AxiosResponse<T>> => {
-  // const cookieAuth = await getCookie('auth1');
 
-  // const Authorization = cookieAuth ? `Bearer ${cookieAuth}` : '';
 
-  const { method = 'GET', url = '', headers: customHeaders, data, ...restConfig } = config;
+  const { method = 'GET', url = '', headers: customHeaders, data, ...restConfig } = config || {};
 
   const headers = {
     ...customHeaders,
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   };
 
   try {
