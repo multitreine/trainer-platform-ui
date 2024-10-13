@@ -112,8 +112,6 @@ export function Hero({ heroData }: HeroSectionProps) {
 const wrapperHero = (Component: any) => {
   return function WrapperHero() {
     const store = makeStore.getState() || {};
-    console.log("heroData =>>", JSON.stringify(store, null, 2));
-
     const heroData = {
       data: selectorsHero.selectHeroData(store),
       loading: selectorsHero.selectHeroLoading(store),
