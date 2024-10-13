@@ -13,12 +13,12 @@ const wrapperDataPage = (Component: any) => {
 
     try {
       await Promise.all([
-        dispatch(operationsHeader.fetchHeaderIfNeeded()),
-        dispatch(operationsHero.fetchHeroIfNeeded()),
-        dispatch(operationsCourses.fetchCoursesIfNeeded()),
+        dispatch(operationsHeader.fetchHeaderData()),
+        dispatch(operationsHero.fetchHeroData()),
+        dispatch(operationsCourses.fetchCoursesData()),
         dispatch(operationsTeachers.fetchTeachersData()),
         dispatch(operationsStructure.fetchStructureData()),
-        dispatch(operationsFooter.fetchFooterIfNeeded()),
+        dispatch(operationsFooter.fetchFooterData()),
       ]);
     } catch (error) {
       console.error("error error wrapperDataPage all dispatch", JSON.stringify(error, null, 2));
