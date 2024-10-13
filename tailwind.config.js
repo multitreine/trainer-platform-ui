@@ -92,6 +92,5 @@ module.exports = {
   		'rocket-main': ' cubic-bezier(.25,.46,.45,.94)'
   	}
   },
-  
   plugins: [require("tailwindcss-animate")],
 };

@@ -3,13 +3,14 @@ import { selectorsTeachers } from "@/ducks/teachers";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
 import { makeStore } from "@/store/createStore";
 import Image from "next/image";
-
+import { Badge } from "@/components/ui/badge";
 
 interface Teacher {
   id: string;
   name: string;
   description: string;
   image: string;
+  expertise: string;
 }
 
 interface TeachersComponentProps {
@@ -17,11 +18,14 @@ interface TeachersComponentProps {
 }
 
 export default function TeachersComponent({ selectorsData }: TeachersComponentProps) {
+  if (selectorsData.length === 0) {
+    return null
+  }
   return (
     <section className="py-12 bg-[#B2B2B2]">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8">Conheça nossos professores</h2>
-        <div className="flex flex-wrap justify-center gap-12 p-4 ">
+        <div className="flex flex-wrap gap-12 p-4 pl-0">
           {selectorsData?.map((teacher) => (
             <div key={teacher.id} className="relative w-full max-w-md mb-8">
               <div className="bg-gray-900 rounded-2xl overflow-hidden">
@@ -31,14 +35,17 @@ export default function TeachersComponent({ selectorsData }: TeachersComponentPr
                       <h2 className="text-white text-2xl font-bold mb-1">
                         {teacher.name}
                       </h2>
-                      <p className="text-gray-400 text-sm mb-0 mr-4">
+                      {teacher.expertise ? (
+                        <Badge variant="multiTraine">{teacher.expertise}</Badge>
+                      ) : null}
+                      <p className="text-gray-400 text-sm -mb-1 mr-4">
                         {teacher.description}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-40 h-40 z-20">
+              <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-48 h-48 z-20">
                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-900 shadow-lg">
                   <Image
                     src={getPathImage(teacher.image)}

@@ -9,9 +9,8 @@ import { getCockpit } from '@/service/endpoints/cockpit';
 
 export const fetchTeachersData = (): any => async (dispatch: AppDispatch) => {
   dispatch(fetchTeachersRequest());
-
   try {
-    const teachers = await getCockpit({ params: 'content/items/teachers' });
+    const teachers = await getCockpit({ params: 'content/items/teacher' });
     dispatch(fetchTeachersSuccess(teachers));
   } catch (error: any) {
     dispatch(fetchTeachersFailure(error.message));

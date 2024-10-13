@@ -1,4 +1,4 @@
-const getPathImage = (image: string) => {
+const getPathImage = (image = "") => {
   return `${process.env.COCKPIT_URL}/storage/uploads${image}`;
 }
 

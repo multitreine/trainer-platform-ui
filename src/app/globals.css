@@ -93,23 +93,44 @@ ul {
 .background-container {
   position: relative;
   width: 100%;
-  height: 200px;
+  /* height: 300px; */
+  bottom: 30px;
+  margin-bottom: 90px;
 }
 
 .green-stripe {
   position: absolute;
   width: 100%;
-  height: 60%;
+  height: 200px;
   background-color: #4CAF50;
-  z-index: 2;
+  z-index: 4;
   clip-path: polygon(0 27%, 100% 0, 100% 30%, 0 60%);
 }
 
 .gray-stripe {
   position: absolute;
   width: 100%;
-  height: 60%;
+  height: 200px;
   background-color: #808080;
-  z-index: 1;
-  clip-path: polygon(0 9%, 100% 14%, 100% 48%, 0 59%);
+  z-index: 3;
+  clip-path: polygon(0 4%, 100% 18%, 100% 54%, 0 44%);
+}
+
+.headerCustom{
+  width: 100vw;
+
+  @media (min-width: 1840px) {
+    width: 100vw;
+    left: 10%;
+  }
+}
+
+.slick-prev:before,
+.slick-next:before {
+  display:none;
+}
+.slider-container {
+  max-width: 100vw;
+  width: 100%;
+  overflow: hidden;
 }

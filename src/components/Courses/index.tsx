@@ -1,17 +1,30 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { makeStore } from "@/store/createStore";
-import { selectorsCourses } from "@/ducks/courses";
+import { operationsCourses, selectorsCourses } from "@/ducks/courses";
 import { isActiveInDateRange } from "@/helpers/isActiveInDateRange";
 import Link from "next/link";
 
-export function CoursesComponent({ coursesData }: any) {
-  const activeCourses = coursesData?.filter((data: { isActive: boolean }) => {
-    return data.isActive;
-  });
+interface CourseCard {
+  title: string;
+  description: string;
+  image: { path: string };
+  ctaText: string;
+  ctaUrl: string;
+  id: string;
+}
 
-  if (activeCourses.length === 0) {
-    return <></>;
+interface Course {
+  cards: CourseCard[];
+  cardsHome: CourseCard[];
+  details: any[];
+  isActive: boolean;
+}
+
+export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
+  const activeCourses = coursesData?.filter(({ isActive }) => isActive);
+  if (!activeCourses || activeCourses.length === 0) {
+    return null;
   }
 
   return (
@@ -21,14 +34,18 @@ export function CoursesComponent({ coursesData }: any) {
           Cursos de capacitação e aperfeiçoamento
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {activeCourses?.map(
-            (data: { isActive: any; courses: any; id: any }) => {
-              const { courses, id } = data;
+          {activeCourses.map((course) =>
+            course.cardsHome?.map((card) => {
+              const {
+                title = "",
+                description = "",
+                image,
+                ctaText = "Saiba mais",
+                ctaUrl = "#",
+                id,
+              } = card;
 
-              const { course } = courses;
-              const { title, description, image, ctaText, ctaUrl } = course;
-
-              const pathImage = `${process.env.COCKPIT_URL}/storage/uploads${image.path}`;
+              const pathImage = `${process.env.COCKPIT_URL}/storage/uploads${image}`;
 
               return (
                 <div
@@ -37,25 +54,25 @@ export function CoursesComponent({ coursesData }: any) {
                 >
                   <Image
                     src={pathImage}
-                    alt={course.title}
+                    alt={title}
                     width={400}
                     height={200}
                     className="w-full"
                     loading="lazy"
                   />
                   <div className="p-6">
-                    <h3 className="font-bold text-xl mb-2">{title}</h3>
+                    <h3 className="font-bold text-xl mb-2 min-h-14">{title}</h3>
                     <p className="text-gray-600 mb-4">{description}</p>
                     <Button
                       variant="default"
-                      className="bg-green-600 hover:bg-green-700 text-white"
+                      className="bg-green-600 hover:bg-green-700 text-white w-full"
                     >
                       <Link href={ctaUrl}>{ctaText}</Link>
                     </Button>
                   </div>
                 </div>
               );
-            }
+            })
           )}
         </div>
       </div>
@@ -64,28 +81,13 @@ export function CoursesComponent({ coursesData }: any) {
 }
 
 const wrapperCourses = (Component: any) => {
-  return function WrapperCourses() {
+  return async function WrapperCourses() {
+    const dispatch = makeStore.dispatch;
+    await dispatch(operationsCourses.fetchCoursesData());
     const store = makeStore.getState();
 
-    const coursesData = selectorsCourses
-      .selectCoursesData(store)
-      .map(
-        (item: {
-          startDate: any;
-          endDate: any;
-          cardCourses: any;
-          _id: any;
-        }) => {
-          return {
-            isActive: isActiveInDateRange(item.startDate, item.endDate),
-            courses: {
-              ...item.cardCourses,
-            },
-            id: item._id,
-          };
-        }
-      );
-
+    const coursesData = selectorsCourses.selectCoursesData(store);
+    
     return <Component coursesData={coursesData} />;
   };
 };

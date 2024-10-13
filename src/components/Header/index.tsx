@@ -1,11 +1,11 @@
 import Image from "next/image";
-import * as IconLucie from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { makeStore } from "@/store/createStore";
-import { selectorsHeader } from "@/ducks/header";
-import { useEffect, useState } from "react";
-import { isWindow } from "@/helpers/window";
+import { operationsHeader, selectorsHeader } from "@/ducks/header";
 import Link from "next/link";
+import { getIconComponent } from "@/helpers/getIconComponent";
+import _ from "lodash";
+import { v4 as uuidv4 } from "uuid";
 
 type HeaderProps = {
   headerData: {
@@ -28,16 +28,6 @@ type SocialIconProps = {
   size: number;
 };
 
-function getIconComponent(social: SocialIconProps) {
-  const iconName = social.name.charAt(0).toUpperCase() + social.name.slice(1);
-  const Icon =
-    (
-      IconLucie as unknown as {
-        [key: string]: React.ComponentType<{ className?: string }>;
-      }
-    )[iconName] || IconLucie["Facebook"];
-  return Icon;
-}
 
 function HeaderComponent({ headerData }: HeaderProps) {
   const {
@@ -45,13 +35,13 @@ function HeaderComponent({ headerData }: HeaderProps) {
     navLinks = [],
     icon = [],
     logoMobile = { path: "" },
-  } = headerData?.data;
+  } = headerData;
 
   const pathLogoDesktop = `${process.env.COCKPIT_URL}/storage/uploads${logoDesktop.path}`;
   const pathLogoMobile = `${process.env.COCKPIT_URL}/storage/uploads${logoMobile.path}`;
 
   return (
-    <header className="container mx-auto px-4 flex items-center justify-between">
+    <header className="headerCustom bg-transparent absolute z-20 container mx-auto px-4 flex items-center justify-between">
       <div className="hidden md:block">
         <Image
           src={pathLogoDesktop}
@@ -66,9 +56,9 @@ function HeaderComponent({ headerData }: HeaderProps) {
       </div>
 
       <nav className="hidden pb-5 md:flex space-x-6">
-        {navLinks?.map((link: LinkProps, index: React.Key) => (
+        {navLinks?.map((link: LinkProps) => (
           <a
-            key={index}
+            key={uuidv4()}
             href={link.path}
             className="text-gray-600 hover:text-gray-900"
           >
@@ -77,15 +67,14 @@ function HeaderComponent({ headerData }: HeaderProps) {
         ))}
       </nav>
       <div className="hidden md:flex pb-5 items-center space-x-4">
-        {icon?.map((social: SocialIconProps, index: React.Key) => {
-          const Icon = getIconComponent(social);
-          console.log(social);
+        {icon?.map((social: SocialIconProps ) => {
+          const Icon = getIconComponent(social) as React.ElementType;
           return (
             <Link
               href={social.path}
               target="_blank"
               rel="noopener noreferrer"
-              key={index}
+              key={uuidv4()}
             >
               <Icon
                 className={`w-${social.size} h-${social.size} text-gray-600 hover:text-green-600 transition-colors duration-200 cursor-pointer`}
@@ -105,15 +94,13 @@ function HeaderComponent({ headerData }: HeaderProps) {
 }
 
 const wrapperHeader = (Component: any) => {
-  return function WrapperHeader() {
+  return async function WrapperHeader() {
+    const dispatch = makeStore.dispatch;
+
+    await dispatch(operationsHeader.fetchHeaderIfNeeded());
+
     const store = makeStore.getState();
-
-
-    const headerData = {
-      data: selectorsHeader.selectHeaderData(store),
-      loading: selectorsHeader.selectHeaderLoading(store),
-      error: selectorsHeader.selectHeaderError(store),
-    };
+    const headerData = selectorsHeader.selectHeaderData(store);
 
     return <Component headerData={headerData} />;
   };
