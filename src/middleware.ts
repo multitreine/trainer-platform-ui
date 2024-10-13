@@ -2,23 +2,25 @@ import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 
 export async function middleware(req: any) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  let token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
 
-  const publicRoutes = ['/', '/login', '/about'];
-
-  if (publicRoutes.includes(pathname)) {
-    return NextResponse.next();
+  // Verifica se a rota está dentro de /(public)/*
+  if (pathname.startsWith('/public')) {
+    return NextResponse.next(); // Permite o acesso a rotas públicas
   }
 
-  // Se a rota for privada e o usuário não estiver autenticado, redirecionar para o login
+  // Se não houver token, define um token padrão
   if (!token) {
-    const url = req.nextUrl.clone();
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
+    token = {
+      // Defina as propriedades padrão do token aqui
+      name: 'Guest User',
+      role: 'guest',
+      exp: Math.floor(Date.now() / 1000) + 60 * 60, // Expira em 1 hora
+    };
   }
 
-  // Se o usuário estiver autenticado, permitir o acesso à rota privada
+  // Permite o acesso à rota privada com o token (pode ser o padrão ou o autenticado)
   return NextResponse.next();
 }
 
