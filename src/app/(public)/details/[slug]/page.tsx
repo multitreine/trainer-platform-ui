@@ -4,15 +4,15 @@ import { CoursesSection } from "@/components/Courses";
 import { PriceSection } from "@/components/PriceSection";
 import { CourseTabs } from "@/components/CourseTabs";
 import { wrapperDataPage } from "./data";
-import { CourseDetails } from "@/ducks/courses/types";
+import { CourseDetails } from "@/store/courses/types";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
 
 export type Details = {
   details: CourseDetails;
 };
 
-
 function Details({ details }: Details) {
+  // console.log(JSON.stringify(details, null, 2));
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow mt-28 container mx-auto px-4 py-8">

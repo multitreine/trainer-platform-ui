@@ -3,7 +3,6 @@ import { CoursesSection } from "@/components/Courses";
 import { StructureSection } from "@/components/Structure";
 import { Footer } from "@/components/Footer";
 import { TeachersSection } from "@/components/Teachers";
-import { wrapperDataPage } from "./data";
 import { HeroSection } from "@/components/Hero";
 
 const CustomBackground = () => {
@@ -30,4 +29,4 @@ const HomePage = () => {
   );
 };
 
-export default wrapperDataPage(HomePage);
+export default HomePage;

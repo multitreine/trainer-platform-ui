@@ -1,9 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { makeStore } from "@/store/createStore";
-import { operationsCourses, selectorsCourses } from "@/ducks/courses";
-import { isActiveInDateRange } from "@/helpers/isActiveInDateRange";
 import Link from "next/link";
+import { useCoursesStore } from "@/store/courses";
 
 interface CourseCard {
   title: string;
@@ -22,10 +20,12 @@ interface Course {
 }
 
 export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
+  
   const activeCourses = coursesData?.filter(({ isActive }) => isActive);
   if (!activeCourses || activeCourses.length === 0) {
     return null;
   }
+
 
   return (
     <section className="bg-gray-100 py-12">
@@ -40,8 +40,8 @@ export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
                 title = "",
                 description = "",
                 image,
-                ctaText = "Saiba mais",
-                ctaUrl = "#",
+                ctaText = "saiba mais",
+                ctaUrl,
                 id,
               } = card;
 
@@ -63,12 +63,14 @@ export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
                   <div className="p-6">
                     <h3 className="font-bold text-xl mb-2 min-h-14">{title}</h3>
                     <p className="text-gray-600 mb-4">{description}</p>
-                    <Button
-                      variant="default"
-                      className="bg-green-600 hover:bg-green-700 text-white w-full"
-                    >
-                      <Link href={ctaUrl}>{ctaText}</Link>
-                    </Button>
+                    <Link href={ctaUrl}>
+                      <Button
+                        variant="default"
+                        className="bg-green-600 hover:bg-green-700 text-white w-full"
+                      >
+                        {ctaText}
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               );
@@ -82,11 +84,10 @@ export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
 
 const wrapperCourses = (Component: any) => {
   return async function WrapperCourses() {
+    const courses = await useCoursesStore.getState().fetchCourses();
 
-    const store = makeStore.getState() || {};
+    const coursesData = useCoursesStore.getState().courses;
 
-    const coursesData = selectorsCourses.selectCoursesData(store);
-    
     return <Component coursesData={coursesData} />;
   };
 };

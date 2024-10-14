@@ -1,14 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Slider from "react-slick";
-import { makeStore } from "@/store/createStore";
-import { operationsHero, selectorsHero } from "@/ducks/hero";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
+import _ from "lodash";
+import { useHeroStore } from "@/store/hero";
 
 interface Slide {
   isImage: boolean;
@@ -35,12 +34,11 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  autoplay: false,
-  with: "100%",
+  autoplay: true,
 };
 
 const renderMedia = (slide: Slide) => {
-  if (slide.pathImage) {
+  if (slide?.pathImage) {
     const pathImage = getPathImage(slide.pathImage!);
     return (
       <div>
@@ -68,23 +66,12 @@ const renderMedia = (slide: Slide) => {
 };
 
 export function Hero({ heroData }: HeroSectionProps) {
+
   const { data: slides } = heroData || {};
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, [isClient]);
-
-  if (!isClient) {
-    return <></>;
-  }
-
-
 
   return (
     <div className="relative slider-container bg-slate-600">
-      {slides.length > 1 ? (
+      {slides?.length > 1 ? (
         <Slider {...settings}>
           {slides?.map((slide) => (
             <Link href={slide?.userDestination || ""} key={slide.id}>
@@ -95,15 +82,11 @@ export function Hero({ heroData }: HeroSectionProps) {
           ))}
         </Slider>
       ) : (
-        slides?.map((slide) => (
-          <>
-            <Link href={slide?.userDestination || ""} key={slide.id}>
-              <section key={slide.id} className="container items-center">
-                <div className=" relative">{renderMedia(slide)}</div>
-              </section>
-            </Link>
-          </>
-        ))
+        <Link href={slides[0]?.userDestination || ""} key={slides[0]?.id}>
+          <section key={slides[0]?.id} className="container items-center">
+            <div className=" relative">{renderMedia(slides[0])}</div>
+          </section>
+        </Link>
       )}
     </div>
   );
@@ -111,15 +94,29 @@ export function Hero({ heroData }: HeroSectionProps) {
 
 const wrapperHero = (Component: any) => {
   return function WrapperHero() {
-    const store = makeStore.getState() || {};
-    const heroData = {
-      data: selectorsHero.selectHeroData(store),
-      loading: selectorsHero.selectHeroLoading(store),
-      error: selectorsHero.selectHeroError(store),
-    };
+    const { fetchHero, data, loading } = useHeroStore();
 
-    return <Component heroData={heroData} />;
+    useEffect(() => {
+      fetchHero(); 
+    }, [fetchHero]);
+
+    if (loading) {
+      return (
+        <div className="relative slider-container bg-slate-600">
+          <Skeleton
+            style={{
+              width: "100%",
+              height: "500px",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+      );
+    }
+
+    return <Component heroData={{ data, loading, error: null }} />;
   };
 };
+
 
 export const HeroSection = wrapperHero(Hero);

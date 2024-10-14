@@ -1,13 +1,12 @@
-import { Footer } from "./types";
 
 
-const create = (rawData: Footer[]) => {
-  const data = rawData.map((footer: Footer) => {
+const create = (rawData: any[]) => {
+  const data = rawData.map((footer: any) => {
     return {
       newsletter: footer?.newsletter || {},
       sections: footer?.sections || [],
       socialLinks: footer?.socialLinks || [],
-      paymentMethods: footer?.paymentMethods.map((paymentMethod) => ({
+      paymentMethods: footer?.paymentMethods.map((paymentMethod: any) => ({
         icon: paymentMethod?.icon?.path || {},
         url: paymentMethod?.url || ""
       })) || [],

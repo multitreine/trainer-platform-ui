@@ -35,7 +35,7 @@ const checkCourseActiveStatus = (startDate: string, endDate: string) => {
   }
 }
 
-const create = (rawData: Course[]) => {
+const model = (rawData: Course[]) => {
   return rawData.map((course: Course) => {
     try {
       return {
@@ -56,5 +56,5 @@ const create = (rawData: Course[]) => {
 }
 
 export {
-  create
+  model
 }

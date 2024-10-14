@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { makeStore } from "@/store/createStore";
-import { selectorsStructure } from "@/ducks/structure";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
+import { useStructureStore } from "@/store/structure";
 
 export function StructureComponent({ structureData }: any) {
   return (
@@ -12,7 +11,7 @@ export function StructureComponent({ structureData }: any) {
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 mb-8 md:mb-0">
           <Image
-            src={getPathImage(structureData.image)}
+            src={getPathImage(structureData?.image)}
             alt="Estrutura"
             width={600}
             height={400}
@@ -20,10 +19,10 @@ export function StructureComponent({ structureData }: any) {
           />
         </div>
         <div className="md:w-1/2 md:pl-12">
-          <h2 className="text-6xl font-bold mb-4">{structureData.title}</h2>
-          <p className="text-gray-600 mb-8">{structureData.description}</p>
+          <h2 className="text-6xl font-bold mb-4">{structureData?.title}</h2>
+          <p className="text-gray-600 mb-8">{structureData?.description}</p>
           <div className="grid grid-cols-3 gap-4">
-            {structureData.statistics?.map((stat: any) => {
+            {structureData?.statistics?.map((stat: any) => {
               return (
                 <div
                   key={uuidv4()}
@@ -32,18 +31,18 @@ export function StructureComponent({ structureData }: any) {
                 md:bg-slate-50 md:text-gray-900
                 "
                 >
-                  <span className="text-5xl font-bold">{stat.value}</span>
-                  <p className="text-xs">{stat.label}</p>
+                  <span className="text-5xl font-bold">{stat?.value}</span>
+                  <p className="text-xs">{stat?.label}</p>
                 </div>
               );
             })}
           </div>
-          <Link href={structureData.ctaAction} rel="noopener noreferrer">
+          <Link href={structureData?.ctaAction || ''} rel="noopener noreferrer">
             <Button
               variant="default"
               className="bg-green-600 hover:bg-green-700 text-white mt-8"
             >
-              {structureData.ctaText}
+              {structureData?.ctaText}
             </Button>
           </Link>
         </div>
@@ -53,9 +52,9 @@ export function StructureComponent({ structureData }: any) {
 }
 
 const wrapperCourses = (Component: any) => {
-  return function WrapperCourses() {
-    const store = makeStore.getState() || {};
-    const structureData = selectorsStructure.selectStructureData(store);
+  return async function WrapperCourses() {
+    const structure = await useStructureStore.getState().fetchStructureData();
+    const structureData = useStructureStore.getState().data;
     return <Component structureData={structureData} />;
   };
 };

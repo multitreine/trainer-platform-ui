@@ -12,16 +12,6 @@ import { ChevronDown } from "lucide-react";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
 import _ from "lodash";
 
-function formatDate(dateString = " "): string {
-  const [datePart, timePart] = dateString.split(" ");
-  const [year, month, day] = datePart.split("-");
-  let formattedDate = `${day} - ${month} - ${year}`;
-  if (timePart) {
-    formattedDate += ` às ${timePart}`;
-  }
-  return formattedDate;
-}
-
 const transFormPriceSection = (details: any) => {
   const priceSection = {
     price: details?.price,
@@ -35,7 +25,8 @@ const transFormPriceSection = (details: any) => {
     })),
     time: details?.time,
     hourlyLoad: details?.hourlyLoad,
-    date: formatDate(details?.date),
+    date: details?.date,
+    interval: details?.interval,
   };
   return priceSection;
 };
@@ -51,9 +42,13 @@ const PriceSection = ({ details }: any) => {
     window.open(path, "_blank");
   };
 
+  if (!dataPriceSection?.price) {
+    return null;
+  }
+
   return (
     <div className="lg:col-span-1">
-      <div className=" rounded-lg p-6 sticky top-4">
+      <div className=" rounded-lg p-6 sticky top-4 w-[100%] lg:w-[130%]">
         <div className="bg-white rounded-lg p-6 mt-[4.3rem]">
           <h2 className="text-3xl font-bold mb-4">
             R$ {dataPriceSection?.price}
@@ -135,18 +130,30 @@ const PriceSection = ({ details }: any) => {
         <div className="bg-white rounded-lg p-6 mt-6">
           <h3 className="text-xl font-bold mb-2">Detalhes do Curso</h3>
           <ul className="space-y-2">
-            <li className="flex justify-between">
-              <span>Horário</span>
-              <span>{dataPriceSection.time}</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Carga Horária</span>
-              <span>{dataPriceSection.hourlyLoad}</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Data</span>
-              <span>{dataPriceSection.date}</span>
-            </li>
+            {dataPriceSection?.time && (
+              <li className="flex justify-between">
+                <span>Horário</span>
+                <span>{dataPriceSection?.time}</span>
+              </li>
+            )}
+            {dataPriceSection?.hourlyLoad && (
+              <li className="flex justify-between">
+                <span>Carga Horária</span>
+                <span>{dataPriceSection?.hourlyLoad}</span>
+              </li>
+            )}
+            {dataPriceSection?.interval && (
+              <li className="flex justify-between">
+                <span>Intervalo</span>
+                <span>{dataPriceSection?.interval}</span>
+              </li>
+            )}
+            {dataPriceSection?.date && (
+              <li className="flex justify-between">
+                <span>Data</span>
+                <span>{dataPriceSection?.date}</span>
+              </li>
+            )}
           </ul>
         </div>
 

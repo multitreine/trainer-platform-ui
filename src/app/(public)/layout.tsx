@@ -1,19 +1,11 @@
 import { Header } from "@/components/Header";
+import { AppWrapper } from "../AppWrapper";
 
-export const metadata = {
-  title: "Rocketseat · Evolua rápido como a tecnologia.",
-};
-
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-      
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <AppWrapper>{children}</AppWrapper>
     </>
   );
 }

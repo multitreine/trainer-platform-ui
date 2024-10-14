@@ -1,7 +1,6 @@
 
-import { selectorsTeachers } from "@/ducks/teachers";
+import { useTeachersStore } from "@/store/teachers";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
-import { makeStore } from "@/store/createStore";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
@@ -18,7 +17,7 @@ interface TeachersComponentProps {
 }
 
 export default function TeachersComponent({ selectorsData }: TeachersComponentProps) {
-  if (selectorsData.length === 0) {
+  if (selectorsData?.length === 0) {
     return null
   }
   return (
@@ -65,9 +64,9 @@ export default function TeachersComponent({ selectorsData }: TeachersComponentPr
 }
 
 const wrapperCourses = (Component: any) => {
-  return function WrapperCourses() {
-    const store = makeStore.getState() || {};
-    const selectorsData = selectorsTeachers.selectTeachersData(store);
+  return async function WrapperCourses() {
+    const teachers = await useTeachersStore.getState().fetchTeachers()
+    const selectorsData = useTeachersStore.getState().data
     return <Component selectorsData={selectorsData} />;
   };
 };

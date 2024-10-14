@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { makeStore } from "@/store/createStore";
-import { operationsHeader, selectorsHeader } from "@/ducks/header";
 import Link from "next/link";
 import { getIconComponent } from "@/helpers/getIconComponent";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { useHeaderStore } from "@/store/header";
 
 type HeaderProps = {
   headerData: {
@@ -29,13 +28,18 @@ type SocialIconProps = {
 };
 
 
-function HeaderComponent({ headerData }: HeaderProps) {
+function HeaderComponent({ headerData }: any) {
+
+  if (_.isEmpty(headerData)) {
+    return null;
+  }
+
   const {
     logoDesktop = { path: "" },
     navLinks = [],
     icon = [],
     logoMobile = { path: "" },
-  } = headerData;
+  } = headerData[0];
 
   const pathLogoDesktop = `${process.env.COCKPIT_URL}/storage/uploads${logoDesktop.path}`;
   const pathLogoMobile = `${process.env.COCKPIT_URL}/storage/uploads${logoMobile.path}`;
@@ -95,13 +99,8 @@ function HeaderComponent({ headerData }: HeaderProps) {
 
 const wrapperHeader = (Component: any) => {
   return async function WrapperHeader() {
-    const dispatch = makeStore.dispatch;
-
-    await dispatch(operationsHeader.fetchHeaderIfNeeded());
-
-    const store = makeStore.getState();
-    const headerData = selectorsHeader.selectHeaderData(store);
-
+    const header = await useHeaderStore.getState().fetchHeaderData();
+    const headerData = useHeaderStore.getState().data
     return <Component headerData={headerData} />;
   };
 };

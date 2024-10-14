@@ -1,4 +1,3 @@
-import { Structure } from './types';
 
 const defaultStructure = {
   title: "",
@@ -11,7 +10,7 @@ const defaultStructure = {
   ctaAction: "",
 }
 
-const create = (rawData: Structure[]) => {
+const create = (rawData: any[]) => {
   const structure = rawData[0] || defaultStructure
   
   return {

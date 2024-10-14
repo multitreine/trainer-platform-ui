@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
-const axiosInstance: AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance | any = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
@@ -16,7 +16,7 @@ interface ApiServiceConfig extends AxiosRequestConfig {
 
 if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
   axiosInstance.interceptors.response.use(
-    (response) => {
+    (response : any) => {
       console.log(`
         requested at ${response.config.url},
         method: ${response.config.method?.toUpperCase()},
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
       `);
       return response;
     },
-    (error) => {
+    (error: any) => {
       console.log(`
         requested at ${error.config.url},
         method: ${error.config.method?.toUpperCase()},
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
 
 const apiService = async <T = any>(config: ApiServiceConfig = {}): Promise<AxiosResponse<T>> => {
 
-
+  const revalidate = { next: { revalidate: 3600 } };
   const { method = 'GET', url = '', headers: customHeaders, data, ...restConfig } = config || {};
 
   const headers = {
@@ -58,6 +58,7 @@ const apiService = async <T = any>(config: ApiServiceConfig = {}): Promise<Axios
       method,
       headers,
       data,
+      ...revalidate,
       ...restConfig,
     });
 
