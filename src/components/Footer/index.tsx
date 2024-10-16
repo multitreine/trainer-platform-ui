@@ -1,39 +1,33 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+"use client";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
 import { getIconComponent } from "@/helpers/getIconComponent";
 import Image from "next/image";
 import { getPathImage } from "@/helpers/getPathImageCockipt";
+import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 import { useFooterStore } from "@/store/footer";
+import _ from "lodash";
 
+interface FooterSectionProps {
+  footerData: {
+    sections: any[];
+    socialLinks: any[];
+    paymentMethods: any[];
+    loading: boolean;
+    error: any;
+  };
+}
 
-export function FooterComponent({ footerData }: any) {
+function FooterComponent({ footerData }: FooterSectionProps) {
+
+  if (_.isEmpty(footerData)) {
+    return null;
+  }
+
   return (
-    <footer className="bg-[#499F63] text-white py-12 ">
+    <footer className="bg-[#499F63] text-white py-12">
       <div className="container mx-auto px-4">
-        {/* <div className="bg-[#F3F4F6] rounded-lg p-6 mb-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <h3 className="text-xl text-black font-bold mb-4 md:mb-0">
-              {footerData?.newsletter?.title}
-            </h3>
-            <div className="flex items-center w-full md:w-auto">
-              <Input
-                type="email"
-                placeholder={footerData?.newsletter?.placeholder}
-                className="bg-white text-black mr-2 focus:border-green-500
-                focus:ring-green-500 focus:ring-2 focus:outline-none"
-              />
-              <Button
-                variant="default"
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                {footerData?.newsletter?.buttonText}
-              </Button>
-            </div>
-          </div>
-        </div> */}
-
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {footerData?.sections?.map((section: any) => (
             <div key={uuidv4()}>
@@ -52,24 +46,20 @@ export function FooterComponent({ footerData }: any) {
         </div>
 
         <div className="flex justify-between items-center border-t border-gray-700 pt-8">
-          <p>{footerData?.copyright}</p>
           <div className="flex space-x-4">
             {footerData?.socialLinks?.map((social: any) => {
-              const Icon = getIconComponent(social.icon) as React.ElementType;
+              const Icon = getIconComponent(social?.icon) as React.ElementType;
               return (
-                <>
-                  <Link
-                    href={social?.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={uuidv4()}
-                  >
-                    <Icon
-                      className={`w-6 h-6 text-gray-600 hover:text-white transition-colors duration-200 cursor-pointer`}
-                    />
-                  </Link>
-                  <div />
-                </>
+                <Link
+                  href={social?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={uuidv4()}
+                >
+                  <Icon
+                    className={`w-6 h-6 text-gray-600 hover:text-white transition-colors duration-200 cursor-pointer`}
+                  />
+                </Link>
               );
             })}
           </div>
@@ -101,15 +91,16 @@ export function FooterComponent({ footerData }: any) {
   );
 }
 
-const wrapperCourses = (Component: any) => {
-  return async function WrapperCourses() {
-    const footer = await useFooterStore.getState().fetchFooterData();
-    const selectorsData = useFooterStore.getState().data;
+const wrapperFooter = (Component: any) => {
+  return function WrapperFooter() {
+    const { fetchFooterData, data } = useFooterStore();
 
-    return <Component footerData={selectorsData} />;
+    useEffect(() => {
+      fetchFooterData();
+    }, [fetchFooterData]);
+
+    return <Component footerData={data} />;
   };
 };
 
-
-
-export const Footer = wrapperCourses(FooterComponent);
+export const Footer = wrapperFooter(FooterComponent);

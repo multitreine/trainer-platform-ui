@@ -1,6 +1,7 @@
 import { getCockpit } from '@/service/endpoints/cockpit';
 import { create } from 'zustand';
 import { create as createTeachers } from './model'; // Mantemos a função create do model.ts
+import _ from 'lodash';
 
 interface TeachersState {
   data: any;
@@ -10,12 +11,18 @@ interface TeachersState {
   setTeachersData: (newData: any) => void;
 }
 
-export const useTeachersStore = create<TeachersState>((set) => ({
+export const useTeachersStore = create<TeachersState>((set, get) => ({
   data: [],
   loading: false,
   error: null,
 
   fetchTeachers: async () => {
+    const currentData = get().data;
+
+    if (!_.isEmpty(currentData)) {
+      return currentData;
+    }
+
     set({ loading: true });
 
     try {

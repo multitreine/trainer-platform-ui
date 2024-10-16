@@ -24,7 +24,6 @@ const HomePage = () => {
         <TeachersSection />
         <StructureSection />
       </>
-      <Footer />
     </div>
   );
 };

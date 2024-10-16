@@ -26,7 +26,6 @@ export function CoursesComponent({ coursesData }: { coursesData: Course[] }) {
     return null;
   }
 
-
   return (
     <section className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">

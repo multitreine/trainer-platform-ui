@@ -1,6 +1,7 @@
 import { getCockpit } from '@/service/endpoints/cockpit';
 import { create } from 'zustand';
 import { create as createFooter } from './model'; 
+import _ from 'lodash';
 
 interface FooterState {
   data: any;

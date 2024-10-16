@@ -16,7 +16,7 @@ export const useCoursesStore = create<CoursesState>((set, get) => ({
     const currentCourses = get().courses;
 
     if (!_.isEmpty(currentCourses)) {
-      return;
+      return currentCourses;
     }
 
     try {
