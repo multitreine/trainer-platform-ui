@@ -10,7 +10,10 @@ const transformCard = (card: Card) => {
       ctaText: card?.ctaText || "Saiba mais",
       ctaUrl: card?.ctaUrl || "#",
       slug: card?.slug || "",
-      id: card?.image._id || ""
+      id: card?.image._id || "",
+      teacher: card?.teacher || [],
+      category: card?.category || null,
+      duration: card?.duration || null,
     }
   } catch (error) {
     console.error("Erro ao transformar card:", error);
@@ -21,7 +24,10 @@ const transformCard = (card: Card) => {
       ctaText: "indisponível",
       ctaUrl: "#",
       slug: "",
-      id: ""
+      id: "",
+      teacher: [],
+      category: null,
+      duration: null,
     }
   }
 }
@@ -49,6 +55,7 @@ const model = (rawData: Course[]) => {
       return {
         cards: [],
         details: [],
+        cardsHome: [],
         isActive: false
       }
     }

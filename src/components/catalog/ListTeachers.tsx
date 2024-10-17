@@ -1,81 +1,62 @@
+"use client";
+
 import Image from "next/image";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useTeachersStore } from "@/store/teachers";
+import { useEffect } from "react";
+import { getPathImage } from "@/helpers/getPathImageCockipt";
 
-const professores = [
-  {
-    id: 1,
-    nome: "João Silva",
-    especialidade: "Desenvolvimento Web",
-    descricao:
-      "Especialista em React e Node.js com mais de 10 anos de experiência.",
-    categoria: "Programação",
-    imagem: "/placeholder.svg?height=100&width=100",
-  },
-  {
-    id: 2,
-    nome: "Maria Santos",
-    especialidade: "Design de Interfaces",
-    descricao:
-      "Designer premiada com foco em experiência do usuário e interfaces modernas.",
-    categoria: "Design",
-    imagem: "/placeholder.svg?height=100&width=100",
-  },
-  {
-    id: 3,
-    nome: "Carlos Oliveira",
-    especialidade: "Marketing Digital",
-    descricao:
-      "Consultor de marketing digital com vasta experiência em campanhas de sucesso.",
-    categoria: "Marketing",
-    imagem: "/placeholder.svg?height=100&width=100",
-  },
-];
-
-export function ListaProfessores({ filtros = {
-  categoria: [],
-
-} }) {
-  const professoresFiltrados = professores.filter((professor: any) => {
-
-    if (!filtros?.categoria || !professor) {
-      return true;
-    }
-
-    return (
-      !filtros?.categoria ||
-      filtros?.categoria.length === 0 
-    );
-  });
-
+function ListaProfessores({ selectorsData }: any) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {professoresFiltrados.map((professor) => (
-        <div
-          key={professor.id}
-          className="bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div className="p-4 flex items-center">
+      {selectorsData?.map((professor: any) => (
+        <Card className="w-full max-w-sm mx-auto overflow-hidden rounded-3xl shadow-lg transition-all duration-300 hover:shadow-xl">
+          <div className="relative w-full pb-[100%]">
             <Image
-              src={professor.imagem}
-              alt={professor.nome}
-              width={80}
-              height={80}
-              className="rounded-full mr-4"
+              src={getPathImage(professor?.image)}
+              alt={professor?.name}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-3xl"
             />
-            <div>
-              <h3 className="text-xl font-semibold mb-1">{professor.nome}</h3>
-              <p className="text-sm text-gray-600 mb-2">
-                {professor.especialidade}
-              </p>
-              <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
-                {professor.categoria}
-              </span>
-            </div>
           </div>
-          <div className="px-4 pb-4">
-            <p className="text-gray-600">{professor.descricao}</p>
-          </div>
-        </div>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-1">
+              {professor?.name}
+            </h2>
+            {professor?.expertise && (
+              <Badge variant="multiTraine">{professor?.expertise}</Badge>
+            )}
+            {professor?.categoria && <Badge variant="multiTraine">{professor?.categoria}</Badge>}
+            <p className="text-base font-semibold text-gray-800">
+              {professor?.description}
+            </p>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
 }
+
+const wrapperCourses = (Component: any) => {
+  return function WrapperCourses() {
+    const { data, fetchTeachers, loading } = useTeachersStore();
+
+    useEffect(() => {
+      fetchTeachers();
+    }, [fetchTeachers]);
+
+    if (loading) {
+      return <p>Carregando...</p>;
+    }
+
+    console.log(data);
+    return <Component selectorsData={data} />;
+  };
+};
+
+export const TeachersCatalog = wrapperCourses(ListaProfessores);

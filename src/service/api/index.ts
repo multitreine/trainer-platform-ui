@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development' && typeof window === 'undefined') {
 
 const apiService = async <T = any>(config: ApiServiceConfig = {}): Promise<AxiosResponse<T>> => {
 
-  const revalidate = { next: { revalidate: 3600 } };
+  const revalidate = { next: { revalidate: 600 } };
   const { method = 'GET', url = '', headers: customHeaders, data, ...restConfig } = config || {};
 
   const headers = {

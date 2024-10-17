@@ -16,7 +16,7 @@ interface TeachersComponentProps {
   selectorsData: Teacher[];
 }
 
-export default function TeachersComponent({ selectorsData }: TeachersComponentProps) {
+function TeachersComponent({ selectorsData }: TeachersComponentProps) {
   if (selectorsData?.length === 0) {
     return null
   }

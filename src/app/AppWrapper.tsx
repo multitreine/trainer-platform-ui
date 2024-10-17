@@ -1,4 +1,4 @@
-
+"use client";
 import "aos/dist/aos.css";
 import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";

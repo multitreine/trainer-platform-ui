@@ -11,12 +11,19 @@ interface FooterState {
   setFooterData: (newData: any) => void;
 }
 
-export const useFooterStore = create<FooterState>((set) => ({
+export const useFooterStore = create<FooterState>((set, get) => ({
   data: [],
   loading: false,
   error: null,
 
   fetchFooterData: async () => {
+    const footerData = get().data;
+
+    if (!_.isEmpty(footerData)) {
+      console.log('Footer data already exists');
+      return Promise.resolve();
+    }
+
     set({ loading: true });
 
     try {
