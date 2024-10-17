@@ -12,7 +12,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[skip build]') }}
+    if: "!contains(github.event.head_commit.message, '[skip build]')"
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -46,7 +46,6 @@ jobs:
   
   Deploy:
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
     needs: Build
     steps:
       - name: Checkout Project
