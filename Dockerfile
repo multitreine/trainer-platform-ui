@@ -17,7 +17,10 @@ RUN npm run build
 FROM node:20-alpine AS deploy
 
 COPY --from=build /usr/src/app/package*.json ./
+COPY --from=build /usr/src/app/next.config.js ./
+
 COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/public ./public
 COPY --from=build /usr/src/app/.next ./.next
 
 EXPOSE 3000
