@@ -74,4 +74,4 @@ jobs:
         run: |
           ssh  root@${{ secrets.SSH_HOST }} "mkdir -p $PATH_DEPLOY"
           scp docker-compose.prod.yaml root@${{ secrets.SSH_HOST }}:$PATH_DEPLOY/docker-compose.yaml
-          ssh  root@${{ secrets.SSH_HOST }} "cd $PATH_DEPLOY && docker-compose down && docker-compose up -d"
+          ssh  root@${{ secrets.SSH_HOST }} "cd $PATH_DEPLOY && docker compose down && docker compose up -d"
