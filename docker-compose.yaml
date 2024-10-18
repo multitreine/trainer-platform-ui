@@ -1,0 +1,10 @@
+services:
+  multitreine_frontend:
+    container_name: multitreine_frontend
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: deploy
+    pull_policy: build
+    ports:
+      - "3000:3000"
