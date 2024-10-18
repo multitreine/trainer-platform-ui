@@ -1,0 +1,28 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}  # Condição para pular o build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run build
+        run: echo "Building the project..."
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]  # O deploy só roda depois do build
+    if: always()  # O deploy sempre será executado, mesmo se o build for pulado ou falhar
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy
+        run: echo "Deploying the project..."
