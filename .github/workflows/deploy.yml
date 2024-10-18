@@ -62,12 +62,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Configure SSH
+      - name: Setup SSH Config
         run: |
           mkdir -p ~/.ssh
           echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           cat ~/.ssh/config
 
-      - name: List files
+      - name: Setup Deploy Paths
+        env:
+          PATH_DEPLOY: /servicos/multitreine_frontend
         run: |
-          ssh root@${{ secrets.SSH_HOST }} ls -la
+          ssh  root@${{ secrets.SSH_HOST }} "mkdir -p $PATH_DEPLOY"
+          scp docker-compose.prod.yaml root@${{ secrets.SSH_HOST }}:$PATH_DEPLOY/docker-compose.yaml
+          ssh  root@${{ secrets.SSH_HOST }} "cd $PATH_DEPLOY && docker-compose down && docker-compose up -d"

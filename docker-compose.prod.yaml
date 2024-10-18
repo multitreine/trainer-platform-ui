@@ -2,6 +2,7 @@ services:
   multitreine_frontend:
     container_name: multitreine_frontend
     image: multitreine/multitreine:frontend-latest
+    pull_policy: always
     restart: unless-stopped
     ports:
       - "3000:3000"
