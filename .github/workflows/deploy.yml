@@ -4,10 +4,10 @@ run-name: 🚀 Usuário ( ${{ github.actor }} ) Branch ( ${{ github.ref_name }} 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main 
+      - master
 
 jobs:
   build:
