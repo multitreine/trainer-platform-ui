@@ -47,6 +47,8 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
+    env:
+      PATH_DEPLOY: ./servicos/multitreine_frontend
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -69,9 +71,10 @@ jobs:
           cat ~/.ssh/config
 
       - name: Setup Deploy Paths
-        env:
-          PATH_DEPLOY: /servicos/multitreine_frontend
         run: |
           ssh  root@${{ secrets.SSH_HOST }} "mkdir -p $PATH_DEPLOY"
           scp docker-compose.prod.yaml root@${{ secrets.SSH_HOST }}:$PATH_DEPLOY/docker-compose.yaml
+      
+      - name: Deploy Docker Compose
+        run: |
           ssh  root@${{ secrets.SSH_HOST }} "cd $PATH_DEPLOY && docker compose down && docker compose up -d"
