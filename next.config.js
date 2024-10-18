@@ -3,7 +3,8 @@
 const nextConfig = {
   env: {
     COCKPIT_URL: process.env.COCKPIT_URL,
-    COCKPIT_API_KEY_LP: process.env.COCKPIT_API_KEY,
+    COCKPIT_API_KEY_LP: process.env.COCKPIT_API_KEY_LP,
+    BACKEND_URL: process.env.BACKEND_URL,
   },
   reactStrictMode: true,
   images: {
@@ -17,12 +18,6 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-  },
-  logging: {
-    fetches: {
-      fullUrl: true,
-      hmrRefreshes: true,
-    },
   },
   async redirects() {
     return [
