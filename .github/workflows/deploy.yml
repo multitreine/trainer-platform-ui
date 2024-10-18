@@ -10,7 +10,7 @@ on:
       - main 
 
 jobs:
-  biuld:
+  build:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip build]') }}
     steps:
@@ -46,7 +46,7 @@ jobs:
   
   deploy:
     runs-on: ubuntu-latest
-    needs: [biuld]
+    needs: [build]
     if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
     env:
       PATH_DEPLOY: ./servicos/multitreine_frontend
