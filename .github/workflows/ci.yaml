@@ -1,5 +1,5 @@
 name: CI Workflow
-run-name: 🚀 CI Workflow  🚀
+run-name: 🚀 CI Workflow OK 🚀
 
 on:
   push:
